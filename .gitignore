@@ -26,3 +26,8 @@
 *.exe
 *.out
 *.app
+*.suo
+*.db
+*.opendb
+*.json
+*.sqlite
