@@ -215,12 +215,13 @@ public:
 	}
 
 	template <class... Args>
-	void emplace_back(Args&& ... args)
+	reference emplace_back(Args&& ... args)
 	{
 		const size_type new_size = _storage.grow_if_needed(1);
 		//_storage.allocate_if_needed(1);
 		_storage.construct_args(_storage.end(), std::forward<Args>(args)...);
 		_storage.force_size(new_size);
+		return *_storage.last();
 	}
 
 
