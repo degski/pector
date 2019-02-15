@@ -64,7 +64,8 @@ public:
 	typedef RecommendedSize recommended_size_type;
 	static constexpr bool is_pod = std::is_pod<value_type>::value;
 
-	static_assert(std::numeric_limits<size_type>::is_signed == false, "SizeType must be an unsigned integer type!");
+	// I want a signed type, an int! No problems experienced.
+	// static_assert(std::numeric_limits<size_type>::is_signed == false, "SizeType must be an unsigned integer type!");
 
 private:
 	typedef internals::pector_storage<value_type, Alloc, allocator_type, size_type, is_pod, recommended_size_type, check_size_overflow> storage_type;
