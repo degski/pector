@@ -91,7 +91,7 @@ public:
 		_storage(o._storage)
 	{ }
 
-	pector(pector&& o):
+	pector(pector&& o)noexcept:
 		_storage(std::move(o._storage))
 	{ }
 
@@ -392,7 +392,7 @@ public:
 		return *this;
 	}
 
-	pector& operator=(pector&& o)
+	pector& operator=(pector&& o)noexcept
 	{
 		if (&o != this) {
 			_storage = std::move(o._storage);
