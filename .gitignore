@@ -31,3 +31,4 @@
 *.opendb
 *.json
 *.sqlite
+/out/build/x64-Debug
