@@ -34,7 +34,7 @@ in your system and build the tests suite.
 Here are the steps:
 
 .. code:: bash
-  
+
   $ git clone https://github.com/aguinet/pector
   $ cd pector
   $ mkdir build
@@ -45,7 +45,7 @@ Here are the steps:
 
 
 It is generally a good idea to run the tests suite to ensure there is no issue
-with your particular system (especially compiler). 
+with your particular system (especially compiler).
 
 Installation by manual copy
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -54,7 +54,7 @@ You can manually copy the ``include/pector`` directory in your project. You need
 to set an include path so that
 
 .. code:: cpp
-  
+
   #include <pector/pector.h>
 
 
@@ -67,7 +67,7 @@ Quick usage
 After installation, you just need to include one header file in your project:
 
 .. code:: cpp
-  
+
   #include <pector/pector.h>
 
 
@@ -95,7 +95,7 @@ The first limitation is the growth strategy chosen by the implementation. Many
 of them made one choice that can't be changed by the user. For instance, LLVM's
 ``std::vector`` implementation (as of January 2015) will multiply by 2 the
 vector capacity if room is needed. You might want to choose a smaller factor, or
-simply not to do this if for instance your vector already takes 2GB of memory. 
+simply not to do this if for instance your vector already takes 2GB of memory.
 
 sizeof(std::vector)
 ~~~~~~~~~~~~~~~~~~~
@@ -216,7 +216,7 @@ The main features of ``pector`` are the following:
 
   pt::pector<int, std::allocator<int>> v;
   // sizeof(v) == sizeof(int*) + 2*sizeof(size_t)
-  
+
   pt::pector<int, std::allocator<int>, uint32_t> v;
   // sizeof(v) == sizeof(int*) + 2*sizeof(uint32_t)
 
@@ -295,7 +295,7 @@ unsigned integers to store the size of the container, and thus gain memory.
 With default packing, this code will output:
 
 .. code::
-  
+
   16
 
 By default, integer overflow checks are performed when the size of the
@@ -319,14 +319,14 @@ For ``pector`` to work with perfect forwarded types, you need to specialized
 ``tests/forward_decl.cpp``) that declares B has a **non-POD** type:
 
 .. code:: cpp
-  
+
   struct B;
 
   namespace std {
   template <>
   struct is_pod<B>: public std::false_type { };
   } // std
-  
+
   typedef pector<B> pector_b;
 
 
@@ -372,7 +372,7 @@ with the associated "traits":
   template <class Alloc>
   struct is_size_aware_allocator: public std::is_base_of<size_aware_allocator, Alloc>
   { };
-  
+
   template <class Alloc>
   struct is_reallocable_allocator: public std::is_base_of<reallocable_allocator, Alloc>
   { };
@@ -397,6 +397,16 @@ For instance, this ``pector`` object:
 
 will uses ``realloc`` for reallocations but won't do any size optimisation of
 the vector object (as described in ``Object size optimisation``).
+
+
+Enhanced mimalloc-based allocator (degski)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Microsoft has recently published, under MIT-license, a new allocator, a ``std::malloc`` replacement named [``mimalloc``](https://github.com/microsoft/mimalloc). `mimalloc` (pronounced "me-malloc") is a general purpose allocator with excellent performance characteristics. Initially developed by Daan Leijen for the run-time systems of the Koka and Lean languages.
+
+The enhanced mimalloc-based allocator is similar to the malloc-based allocator. Include ``pector/mimalloc_allocator.h`` into your project, which defines ``pt::mimalloc_allocator``. Refer to the documentation of ``pt::malloc_allocator`` for details.
+
+The use of ``pt::mimalloc_allocator`` can bring significant performance gains to your application as compared to the use of ``pt::malloc_allocator``.
 
 
 The growing strategy
